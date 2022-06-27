@@ -1,10 +1,6 @@
                                                        ━━━━━━ ❖ ━━━━━━ 
  ###  INFORMATION
-Thanks for dropping by! This is my personal repository of my dotfiles.
-
-The setup section will guide you through a step-by-step installation process.
-
-Here are more information about my setup:
+My mostly yoinked dotfiles for my xmonad. Feel free to copy them.
 
     Window Manager: xmonad
     Terminal: kitty
