@@ -1,1 +1,11 @@
+#!/bin/sh
 
+while read file
+do
+  case "$1" in
+    "w") nitrogen --save --set-zoom-fill "$file" ;; 
+    "d") trash-put "$file" ;;
+    "c") echo -n "$file" | xclip -selection clipboard ;;
+    "r") convert -rotate 270 "$file" "$file" ;;
+  esac 
+done
