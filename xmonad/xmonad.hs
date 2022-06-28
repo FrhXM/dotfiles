@@ -1,42 +1,46 @@
---------------------------------------------------------------------
---                                                    /\ \         |
---        __  _   ___ ___     ___     ___      __     \_\ \        |
---       /\ \/'\/' __` __`\  / __`\ /' _ `\  /'__`\   /'_` \       |
---       \/>  <//\ \/\ \/\ \/\ \L\ \/\ \/\ \/\ \L\.\_/\ \L\ \      |
---       /\_/\_\ \_\ \_\ \_\ \____/\ \_\ \_\ \__/.\_\ \___,_\      |
---        \//\/_/\/_/\/_/\/_/\/___/  \/_/\/_/\/__/\/_/\/__,_ /     |
---------------------------------------------------------------------
----------- base -----------
-import XMonad                                                                                  -- Import Base In XMonad
-import Control.Monad (liftM2)                                                                  -- for Move Window to WS
-import qualified XMonad.StackSet as W                                                          -- for Floating Window 
-import qualified Data.Map as M                                                                 -- for Floating Window
+-------------------------------------------------------------------------------
+--                  __  ____  __                       _                     --
+--                  \ \/ /  \/  | ___  _ __   __ _  __| |                    --
+--                   \  /| |\/| |/ _ \| '_ \ / _` |/ _` |                    --
+--                   /  \| |  | | (_) | | | | (_| | (_| |                    --
+--                  /_/\_\_|  |_|\___/|_| |_|\__,_|\__,_|                    --
+--                                                                           --
+-------------------------------------------------------------------------------
+--          written by Farah Abderrazzak Aka FrhXM(https://github.com/FrhXM)  --
+-------------------------------------------------------------------------------
+-- Import modules                                                           {{{
+-------------------------------------------------------------------------------
+-- Main
+import XMonad                                                                                  
+import System.Exit
+import Control.Monad (liftM2)                                                                 
+import qualified XMonad.StackSet as W                                                        
+import qualified Data.Map as M                                                              
 
--------- Actions ---------
+-- Actions
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.FindEmptyWorkspace
 import XMonad.Actions.Minimize
-import XMonad.Actions.CycleWS
 import XMonad.Actions.WithAll (killAll, sinkAll)
 import XMonad.Actions.WindowGo (raiseBrowser)
-import XMonad.Actions.RotSlaves (rotSlavesUp)
+import XMonad.Actions.RotSlaves (rotSlavesDown)
 import XMonad.Actions.WindowBringer (gotoMenu, bringMenu)
 
---------- Hooks ----------
-import XMonad.ManageHook (doFloat)                                                              --for manageHook
-import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isFullscreen)                    --for manageHook
-import XMonad.Hooks.ManageDocks (avoidStruts, docks)                                            --for xmobar
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, wrap, shorten, PP(..)) --for xmobar
-import XMonad.Hooks.FadeInactive                                                                --for Trancperncy Window (Need Compositor Like "picom" )
+-- Hooks
+import XMonad.ManageHook (doFloat)                                                         
+import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isFullscreen)              
+import XMonad.Hooks.ManageDocks (avoidStruts, docks)                                           
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, wrap, shorten, PP(..))
+import XMonad.Hooks.FadeInactive                                                               
 
--------- Utilities --------
+-- Utilities
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.EZConfig (additionalKeysP)                                                   -- for keybidings
-import XMonad.Util.Run (spawnPipe, hPutStrLn)                                                   -- for xmobar
-import XMonad.Util.SpawnOnce (spawnOnce)                                                        -- autoStart App
-import XMonad.Util.Cursor                                                                       -- Normal Cursor
+import XMonad.Util.EZConfig (additionalKeysP)                                                 
+import XMonad.Util.Run (spawnPipe, hPutStrLn)                                                
+import XMonad.Util.SpawnOnce (spawnOnce)                                                    
+import XMonad.Util.Cursor                                                                  
 
------ Layouts/Modifiers ----
+-- Layouts/Modifiers 
 import XMonad.Layout.ComboP
 import XMonad.Layout.Master
 import XMonad.Layout.PerWorkspace                                                               
@@ -51,7 +55,7 @@ import XMonad.Layout.ShowWName
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 
---------- layout ---------
+-- Layouts
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.OneBig
@@ -66,7 +70,9 @@ import XMonad.Layout.HintedGrid
 import XMonad.Layout.Dwindle                                                    
 import XMonad.Layout.Accordion
 
-------------------------------------------- Color Pallatte ------------------------------------------------
+------------------------------------------------------------------------
+-- Color Pallatte
+------------------------------------------------------------------------
 --- One Pallate ---
 bg            = "#11121D"
 fg            = "#a9b1d6"
@@ -90,16 +96,38 @@ magenta_     = "#bb9af7"
 cyan_        = "#0db9d7"
 white_       = "#acb0d0"
 
---------------------------------------------- Variable XMonad --------------------------------------------
-myModMask       = mod1Mask                                                          -- Sets Mod Key to alt/Super/Win/Fn.
-myTerminal      = "kitty"                                                           -- Sets default Terminal Emulator.
-myBorderWidth   = 1                                                                 -- Sets Border Width in pixels.
-myNormalColor   = bg                                                                -- Border color of normal windows.
-myFocusedColor  = blue                                                              -- Border color of focused windows.
-myFont          = "xft:JetBrains Mono:Regular:size=10"
-myBigFont       = "xft:FiraCode Nerd Font Mono:Bold:size=50"
-myWideFont      = "xft:DejaVu Sans Mono:Bold:size=90:antialias=true:hinting=true"
-windowCount     = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset  -- Number Of Window in XMobar
+------------------------------------------------------------------------
+-- VARIABLES
+------------------------------------------------------------------------
+myFont :: [Char]
+myFont = "xft:JetBrains Mono:style=Bold:pixelsize=13"
+
+myBigFont :: [Char]
+myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=80"
+
+myModMask :: KeyMask
+myModMask = mod1Mask       
+
+altMask :: KeyMask
+altMask = mod4Mask         
+
+myTerminal :: [Char]
+myTerminal = "kitty"   
+
+myBorderWidth :: Dimension
+myBorderWidth = 2         
+
+myNormalColor :: [Char]
+myNormalColor  = black
+
+myFocusedColor :: [Char]
+myFocusedColor  = blue
+
+myFocusFollowsMouse :: Bool
+myFocusFollowsMouse = True
+
+windowCount :: X (Maybe String)
+windowCount  = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset  
 
 ------ Workspaces -------
 -- wsDEV           = "¹DEV"
@@ -114,25 +142,66 @@ windowCount     = gets $ Just . show . length . W.integrate' . W.stack . W.works
 -- myWorkspaces    = [wsDEV,wsGIT,wsWEB,wsYTB,wsCHT,wsMSC,wsVED,wsSIT, wsGME]
 myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "] 
 
------------------------------------------- AutoStart App --------------------------------------------------
+------------------------------------------------------------------------
+-- Startup Hooks
+------------------------------------------------------------------------
 myStartupHook = do
+    spawnOnce "xwallpaper --zoom ~/pix/wall/wall.png"                               -- Wallpapers
     spawnOnce "dunst"                                                               -- notfiction
     spawnOnce "unclutter"                                                           -- hidden Mouse
-    spawnOnce "nitrogen --restore"                                                  -- feh is the alternative "feh --bg-scale /directory/of/desired/background &"
     spawnOnce "xset r rate 255 55"                                                  -- speeds cursor in urxvt
     spawnOnce "picom --experimental-backends -b"                                    -- Compositor
     setDefaultCursor xC_left_ptr                                                    -- Default Cursor
 
------------------------------------------- Layout --------------------------------------------------------
-mySpacings       = spacingRaw False (Border 0 0 0 0) True (Border 5 5 5 5) True
-myGaps           = gaps [(U, 10),(D, 5),(L, 10),(R, 10)]
-myShowWNameTheme = def
-                { swn_font              = myBigFont
-                , swn_fade              = 1.0
-                , swn_bgcolor           = bg
-                , swn_color             = blue
-                }
---
+------------------------------------------------------------------------
+-- Floats
+------------------------------------------------------------------------
+myManageHook = composeAll 
+     [ className =? "firefox"           --> doViewShift " 3 "
+     , className =? "Thunar"            --> doViewShift " 9 "
+     , className =? "mpv"               --> doViewShift " 9 "
+     , className =? "Sxiv"              --> doCenterFloat
+     , className =? "Nitrogen"          --> doCenterFloat
+     , className =? "Xmessage"          --> doCenterFloat
+     , className =? "download"          --> doFloat
+     , className =? "error"             --> doFloat
+     , className =? "Gimp"              --> doFloat
+     , className =? "notification"      --> doFloat
+     ] <+> namedScratchpadManageHook myScratchPads
+    where
+     doViewShift = doF . liftM2 (.) W.view W.shift
+
+------------------------------------------------------------------------
+-- Scratch Pads
+------------------------------------------------------------------------
+myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
+                , NS "cmus" spawnCmus findCmus manageCmus
+                , NS "browser" spawnBrowser findBrowser manageBrowser
+                ]
+  where
+    spawnTerm  = myTerminal ++ " -T scratchpad"
+    findTerm   = title =? "scratchpad"
+    manageTerm = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.9
+                 w = 0.9
+                 t = 0.95 -h
+                 l = 0.95 -w
+    spawnCmus   = myTerminal ++ " -T cmus -e cmus"
+    findCmus    = title =? "cmus"
+    manageCmus  = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.9
+                 w = 0.9
+                 t = 0.95 -h
+                 l = 0.95 -w
+    spawnBrowser = "chromium"
+    findBrowser = className =? "Chromium"
+    manageBrowser = customFloating $ W.RationalRect (1/10) (1/20) (4/5) (9/10)
+
+------------------------------------------------------------------------
+-- Tiling Layouts
+------------------------------------------------------------------------
 -------------------- Base Layout ------------------------
 myTabTheme      = def
                 { fontName              = myFont
@@ -205,10 +274,10 @@ grid            = renamed [Replace "GRID"]
 
 spirals         = renamed [Replace "spirals"]
                 $ maximizeWithPadding 16
-                $ maximize
                 $ minimize
                 $ mySpacings
                 $ Dwindle R CW 1.5 1.1
+
 
 full            = renamed [Replace "FULL"]       
                 $ maximizeWithPadding 16 
@@ -235,7 +304,18 @@ twoTabbed       = renamed [Replace "TWO TABBED"]
                               (tabbed shrinkText myTabTheme) 
                               (ClassName "mpv")
 
----------------------------- Usage ------------------------------
+------------------------------------------------------------------------
+-- Layout Hook
+------------------------------------------------------------------------
+mySpacings       = spacingRaw False (Border 0 0 0 0) True (Border 5 5 5 5) True
+myGaps           = gaps [(U, 10),(D, 5),(L, 10),(R, 10)]
+myShowWNameTheme = def
+                { swn_font              = myBigFont
+                , swn_fade              = 1.0
+                , swn_bgcolor           = bg
+                , swn_color             = blue
+                }
+
 myLayoutHook    = showWName' myShowWNameTheme
                 $ mkToggle (NOBORDERS ?? FULL ?? EOT)
                 $ limitWindows 12
@@ -252,126 +332,88 @@ myLayoutHook    = showWName' myShowWNameTheme
       -- ||| floats
       -- ||| grid
       -- ||| spirals
-    codeLayouts = tabs ||| twoPane ||| dishes
+    codeLayouts = dishes ||| twoPane ||| tabs
     chatLayouts = grid ||| threeColMid ||| tall
     youtubeLayouts = oneBig ||| full
     settingsLayouts = circle ||| grid ||| spirals ||| floats
     mediaLayout = oneUp ||| twoTabbed ||| masterTabbed ||| tabs 
 
+------------------------------------------------------------------------
+-- Custom Keys
+------------------------------------------------------------------------
+myKeys = 
+        [
+    -- Xmonad
+        ("M-q", spawn "xmonad --recompile && xmonad --restart")     
+      , ("M-S-q", io exitSuccess)                                  
+    
+    -- System 
+                    --- Audio ---
+      , ("<XF86AudioMute>",  spawn "pamixer -t && notify-send -t 200 'Toggle mute button!'") 	
+      , ("<F9>",        spawn "pamixer -i 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
+      , ("<F8>",        spawn "pamixer -d 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")  			    
+      , ("<F10>",       spawn "pamixer --default-source -t && notify-send -t 200 'Toggle mute Mic button'")   
+                    --- Brightenss ---
+      , ("<F5>",        spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
+      , ("<F6>",        spawn "xbacklight -inc 10 && notify-send -t 200 `xbacklight -get`")
+                    --- ScreenShoot --- 
+      , ("<Print>",     spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
+      , ("M-<Print>",   spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+      , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+                    --- Scripts ---
+      , ("M-S-w",       spawn "bash ~/prjct/scripts/rofi/wifiMenu.sh" )
+      , ("M-0",         spawn "bash ~/prjct/scripts/rofi/powerMenu.sh")
 
---------------------------------------------------  keyBidings --------------------------------------------
-myKeys =            -- Programme --
-         [ ("M-w",          raiseBrowser                             )
-         , ("M-d",          spawn "rofi -show drun -Show-icons"      )
-         , ("M-S-d",        spawn "dmenu_run -fn 'JetBrains Mono:style=Bold:pixelsize=12' -nb '#11121D' -nf '#7aa2f7' -sb '#7aa2f7' -sf '#11121D' -p 'CMD:'")
+    -- Run Prompt
+      , ("M-S-d",       spawn "dmenu_run")                                                  
+      , ("M-d",         spawn "rofi -show drun")                                           
 
-                    -- ScreenShoot --
-         , ("<Print>",      spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
-         , ("M-<Print>",    spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
-         , ("M-S-<Print>",  spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+    -- Apps
+     , ("M-S-<Return>", spawn myTerminal)                                      
+     , ("M-w",          spawn "firefox")                                                 
+     , ("M-r",          spawn "redshift -O 3800K")                                        
+     , ("M-x",          spawn "redshift -x")                                              
 
-                    -- Audio ---
-         , ("<F8>",         spawn "pactl set-sink-volume @DEFAULT_SINK@ -10% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`" )
-         , ("<F9>",         spawn "pactl set-sink-volume @DEFAULT_SINK@ +10% && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`" )
-         , ("<F10>",        spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle  && notify-send -t 200 'Toggle mute Mic button'"     )
-         , ("<F11>",        spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle && notify-send -t 200 'Toggle mute button!'"             )
 
-                    -- Brightenss --
-        , ("<F4>",          spawn "xbacklight -set 50 && notify-send -t 200 `xbacklight -get`")
-        , ("<F5>",          spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
-        , ("<F6>",          spawn "xbacklight -inc 10 && notify-send -t 200 `xbacklight -get`")
-        , ("<F7>",          spawn "xbacklight -set 100 && notify-send -t 200 `xbacklight -get`")
-                   
-                    -- Scripts --
-        , ("C-w",           spawn "bash ~/prjct/scripts/rofi/wifiMenu.sh" )
-        , ("C-0",           spawn "bash ~/prjct/scripts/rofi/powerMenu.sh")
+    -- Window navigation
+    , ("M-t",           withFocused toggleFloat                 ) {-- Floating window --}
+    , ("M-f",           sendMessage $ Toggle FULL               ) {--Full Screen --}
+    , ("M-S-f",         withFocused (sendMessage . maximizeRestore)) {----For Maximaze With Paddings --}
+    , ("M-e",           viewEmptyWorkspace                      ) {-- Find Empty Workspaces --}
+    , ("M-g",           tagToEmptyWorkspace                     ) {-- Go To workspaces --}
+    , ("M-n",           withFocused minimizeWindow                 ) {-- For Minimize && Action minimize --}
+    , ("M-S-n",         withLastMinimized maximizeWindowAndFocus   ) {-- For Minimize && Action minimize --}
+    , ("M-S-a",         killAll                                 ) {-- Quite All --}
+    , ("M-S-t",         sinkAll                                 ) {-- Push ALL floating windows to tile.--}
+    , ("M-S-s",         sendMessage $ SwapWindow                ) {-- Compine Two Layout [XM-comboP]--}
+    , ("M-S-r",         rotSlavesDown                           ) {-- Don't Touch Layout in Master --}
+    , ("M-p",           gotoMenu                                ) {-- Find Window  in dmenu --}
+    , ("M-b",           bringMenu                               ) {-- swap window To Current WS --}
+   
+   -- Resize layout
+    , ("M-a",           sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) -}
+    , ("M-z",           sendMessage MirrorShrink) {-- For Layout ResizableTile( Tiled ) -}
 
-				    -- Scratchpads --
-        , ("M-s t",        namedScratchpadAction myScratchPads "terminal")  
-        , ("M-s s",        namedScratchpadAction myScratchPads "cmus"    )        
-        , ("M-s w",        namedScratchpadAction myScratchPads "browser" )        
-                    
-               
-                    -- cmus --
-        , ("M-C-S-z",         spawn "cmus-remote -r")
-        , ("M-C-S-x",         spawn "cmus-remote -p")
-        , ("M-C-S-c",         spawn "cmus-remote -u")
-        , ("M-C-S-v",         spawn "cmus-remote -s")
-        , ("M-C-S-b",         spawn "cmus-remote -n")
-        
-                -- Increase/decrease spacing (gaps)
-        , ("M-C-j",          decWindowSpacing 4     )                -- Decrease window spacing
-        , ("M-C-k",          incWindowSpacing 4     )                -- Increase window spacing
-        , ("M-C-h",          decScreenSpacing 4     )                -- Decrease screen spacing
-        , ("M-C-l",          incScreenSpacing 4     )                -- Increase screen spacing
-                    
+    -- Increase/decrease spacing (gaps)
+    , ("M-C-j",         decWindowSpacing 4     )  -- Decrease window spacing
+    , ("M-C-k",         incWindowSpacing 4     )  -- Increase window spacing
+    , ("M-C-h",         decScreenSpacing 4     )  -- Decrease screen spacing
+    , ("M-C-l",         incScreenSpacing 4     )  -- Increase screen spacing
 
-               --  Modifiers Layout --
-        , ("M-t",          withFocused toggleFloat                 ) {-- Floating window --}
-        , ("M-f",          sendMessage $ Toggle FULL               ) {--Full Screen --}
-        , ("M-S-f",        withFocused (sendMessage . maximizeRestore)) {----For Maximaze With Paddings --}
-        , ("M-e",          viewEmptyWorkspace                      ) {-- Find Empty Workspaces --}
-        , ("M-g",          tagToEmptyWorkspace                     ) {-- Go To workspaces --}
-        , ("M-n",          withFocused minimizeWindow              ) {-- For Minimize && Action minimize --}
-        , ("M-S-n",        withLastMinimized maximizeWindowAndFocus) {-- For Minimize && Action minimize --}
-        , ("M-S-a",        killAll                                 ) {-- Quite All --}
-        , ("M-S-t",        sinkAll                                 ) {-- Push ALL floating windows to tile.--}
-        , ("M-S-s",        sendMessage $ SwapWindow                ) {-- Compine Two Layout [XM-comboP]--}
-        , ("M-r",          rotSlavesUp                             ) {-- Rotate window--}
-        , ("M-p",          gotoMenu                                ) {-- Find Window  in dmenu --}
-        , ("M-b",          bringMenu                               ) {-- swap window To Current WS --}
+    -- Scratch Pads 
+    , ("M-s t",         namedScratchpadAction myScratchPads "terminal") -- Terminal
+    , ("M-s s",         namedScratchpadAction myScratchPads "cmus"    ) -- Cmus [Music Player]
+    , ("M-s w",         namedScratchpadAction myScratchPads "browser" ) -- Chromium      
 
-               -- Resize layout --
-        , ("M-a",        sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) -}
-        , ("M-z",        sendMessage MirrorShrink) {-- For Layout ResizableTile( Tiled ) -}
-         ]
-        where 
-            toggleFloat w = windows (\s -> if M.member w (W.floating s)
-                            then W.sink w s
-                            else (W.float w (W.RationalRect (1/6) (1/6) (2/3) (2/3)) s))
+    ]
+    where 
+        toggleFloat w = windows (\s -> if M.member w (W.floating s)
+                    then W.sink w s
+                    else (W.float w (W.RationalRect (1/6) (1/6) (2/3) (2/3)) s))
 
---------------------------------------------------- ManageHook --------------------------------------------
-myManageHook = composeAll 
-     [ className =? "firefox"           --> doViewShift " 3 "
-     , className =? "Thunar"            --> doViewShift " 9 "
-     , className =? "mpv"               --> doViewShift " 9 "
-     , className =? "Sxiv"              --> doCenterFloat
-     , className =? "Nitrogen"          --> doCenterFloat
-     , className =? "Xmessage"          --> doCenterFloat
-     , className =? "download"          --> doFloat
-     , className =? "error"             --> doFloat
-     , className =? "Gimp"              --> doFloat
-     , className =? "notification"      --> doFloat
-     ] <+> namedScratchpadManageHook myScratchPads
-    where
-     doViewShift = doF . liftM2 (.) W.view W.shift
--------------------------------------------------- ScratchPads -------------------------------------------
-myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
-                , NS "cmus" spawnCmus findCmus manageCmus
-                , NS "browser" spawnBrowser findBrowser manageBrowser
-                ]
-  where
-    spawnTerm  = myTerminal ++ " -T scratchpad"
-    findTerm   = title =? "scratchpad"
-    manageTerm = customFloating $ W.RationalRect l t w h
-               where
-                 h = 0.9
-                 w = 0.9
-                 t = 0.95 -h
-                 l = 0.95 -w
-    spawnCmus   = myTerminal ++ " -T cmus -e cmus"
-    findCmus    = title =? "cmus"
-    manageCmus  = customFloating $ W.RationalRect l t w h
-               where
-                 h = 0.9
-                 w = 0.9
-                 t = 0.95 -h
-                 l = 0.95 -w
-    spawnBrowser = "chromium"
-    findBrowser = className =? "Chromium"
-    manageBrowser = customFloating $ W.RationalRect (1/10) (1/20) (4/5) (9/10)
-
--------------------------------------------------- Aplicy All   -------------------------------------------
+------------------------------------------------------------------------
+-- Main Do
+------------------------------------------------------------------------
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobar/xmobar.hs"
     xmonad $ docks def {  modMask                   = myModMask
@@ -412,5 +454,5 @@ main = do
                                                        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                                                        } 
                                                        >>  updatePointer (0.5, 0.5) (0, 0) -- exact centre of window
-                                                       >> fadeInactiveLogHook 0.90         -- Trancperncy Window (max  = 1)
-                               } `additionalKeysP` myKeys
+                                                       >> fadeInactiveLogHook 0.95         -- Trancperncy Window (max = 1)
+                         } `additionalKeysP` myKeys
