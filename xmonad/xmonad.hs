@@ -366,7 +366,7 @@ myKeys =
       , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
                     --- Scripts ---
       , ("M-S-w",       spawn "bash ~/.config/rofi/scripts/wifiMenu.sh" )
-      , ("M-S-e",         spawn "bash ~/.config/rofi/scripts/powerMenu.sh")
+      , ("M-S-e",       spawn "bash ~/.config/rofi/scripts/powerMenu.sh")
 
     -- Run Prompt
       , ("M-S-d",       spawn "dmenu_run")                                                  
