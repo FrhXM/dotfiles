@@ -146,7 +146,7 @@ myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/wall.png"                               -- Wallpapers
+    spawnOnce "xwallpaper --zoom ~/pix/wall/wall.png"                        	    -- Wallpapers
     spawnOnce "dunst"                                                               -- notfiction
     spawnOnce "unclutter"                                                           -- hidden Mouse
     spawnOnce "xset r rate 255 55"                                                  -- speeds cursor in urxvt
@@ -197,7 +197,12 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                  l = 0.95 -w
     spawnBrowser = "chromium"
     findBrowser = className =? "Chromium"
-    manageBrowser = customFloating $ W.RationalRect (1/10) (1/20) (4/5) (9/10)
+    manageBrowser = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.9
+                 w = 0.9
+                 t = 0.95 -h
+                 l = 0.95 -w
 
 ------------------------------------------------------------------------
 -- Tiling Layouts
@@ -277,7 +282,6 @@ spirals         = renamed [Replace "spirals"]
                 $ minimize
                 $ mySpacings
                 $ Dwindle R CW 1.5 1.1
-
 
 full            = renamed [Replace "FULL"]       
                 $ maximizeWithPadding 16 
@@ -361,12 +365,12 @@ myKeys =
       , ("M-<Print>",   spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
       , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
                     --- Scripts ---
-      , ("M-S-w",       spawn "bash ~/prjct/scripts/rofi/wifiMenu.sh" )
-      , ("M-0",         spawn "bash ~/prjct/scripts/rofi/powerMenu.sh")
+      , ("M-S-w",       spawn "bash ~/.config/rofi/scripts/wifiMenu.sh" )
+      , ("M-S-e",         spawn "bash ~/.config/rofi/scripts/powerMenu.sh")
 
     -- Run Prompt
       , ("M-S-d",       spawn "dmenu_run")                                                  
-      , ("M-d",         spawn "rofi -show drun")                                           
+      , ("M-d",         spawn "rofi -show drun -show-icons")                                           
 
     -- Apps
      , ("M-S-<Return>", spawn myTerminal)                                      
