@@ -18,7 +18,7 @@ configuration {
     cyan:                           #67AFC1;
     darkcyan:                       #7acfe4;
     foreground:                     #D9D7D6;
-    background:                     #071317;
+    background:                     #11121D;
     border:                         #434C5E;
 }
 window {
