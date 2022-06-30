@@ -54,3 +54,10 @@ alias 'upgrade'='sudo pacman -Syu && echo "UPGRADED"'
 alias 'ps'='sudo pacman -S'
 alias 'psy'='sudo pacman -Sy'
 alias 'pr'='sudo pacman -Rsn'
+
+# alias for configs	
+alias fishc="vim ~/.config/fish/config.fish"
+alias xmonadc="vim ~/.xmonad/xmonad.hs"
+alias xmobarc="vim ~/.xmonad/xmobar/xmobar.hs"
+alias kittyc="vim ~/.config/kitty/kitty.conf"
+alias nvimc="vim ~/.config/nvim/init.vim"
