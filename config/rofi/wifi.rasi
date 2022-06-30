@@ -1,5 +1,5 @@
 configuration{
-      font: "Fira Code Nerd Font Mono Bold 11";
+      font: "FiraCode Nerd Font Mono Bold 11";
 }
 
 @theme "/dev/null"
