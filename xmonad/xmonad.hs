@@ -220,50 +220,50 @@ myTabTheme      = def
 
 tabs            = renamed [Replace "TABBED"]      
                 $ noBorders
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10
                 $ minimize 
                 $ myGaps 
                 $ tabbed shrinkText myTabTheme
 
 threeColMid     = renamed [Replace "THREECOLMID"] 
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10 
                 $ minimize 
                 $ mySpacings 
                 $ ThreeColMid 1 (3/100) (1/2)
 
 oneBig          = renamed [Replace "ONEBIG"]      
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10 
                 $ minimize 
                 $ mySpacings 
                 $ OneBig (3/4) (3/4)
 
 tall            = renamed [Replace "TILD"]  
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10
                 $ minimize 
                 $ mySpacings 
                 $ ResizableTall 1 (3/100) (1/2) []
 
 twoPane         = renamed [Replace "TWOPANE"]
-                $ maximizeWithPadding 16
+                $ maximizeWithPadding 10
                 $ minimize
                 $ mySpacings
                 $ TwoPanePersistent Nothing (3/100) (1/2)
 
 dishes          = renamed [Replace "DISHES"]
-                $ maximizeWithPadding 16
+                $ maximizeWithPadding 10
                 $ minimize
                 $ mySpacings
                 $ Dishes 2 (1/5)
 
 circle          = renamed [Replace "CIRCLE"]
-                $ maximizeWithPadding 16
+                $ maximizeWithPadding 10
                 $ minimize
                 $ mySpacings
                 $ Circle
 
 
 floats          =  renamed [Replace "FLOAT"]    
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10
                 $ minimize 
                 $ myGaps 
                 $ mySpacings 
@@ -271,31 +271,32 @@ floats          =  renamed [Replace "FLOAT"]
 
 grid            = renamed [Replace "GRID"]
                 $ mySpacings
-                $ maximizeWithPadding 16
+                $ maximizeWithPadding 10
                 $ maximize
                 $ minimize
                 $ limitWindows 12
                 $ GridRatio (4/3) False
 
 spirals         = renamed [Replace "spirals"]
-                $ maximizeWithPadding 16
+                $ maximizeWithPadding 10
                 $ minimize
                 $ mySpacings
                 $ Dwindle R CW 1.5 1.1
 
 full            = renamed [Replace "FULL"]       
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10 
                 $ minimize 
                 $ mySpacings 
                 $ limitWindows 20 Full
 
     --------- Compine Layout ------------
 masterTabbed    = renamed [Replace "MASTER TABBED"]       
-                $ maximizeWithPadding 16 
+                $ maximizeWithPadding 10 
                 $ minimize 
                 $ mastered (1/100) (1/2) $ tabbed shrinkText myTabTheme
 
 oneUp           = renamed [Replace "1UP"]
+                $ maximizeWithPadding 10 
                 $ mySpacings 
                 $ combineTwoP (ThreeCol 1 (3/100) (1/2))
                                     (Simplest)
@@ -303,6 +304,7 @@ oneUp           = renamed [Replace "1UP"]
                                     (ClassName "mpv")
 
 twoTabbed       = renamed [Replace "TWO TABBED"]
+                $ maximizeWithPadding 10 
                 $ combineTwoP (TwoPane 0.03 0.5) 
                               (tabbed shrinkText myTabTheme) 
                               (tabbed shrinkText myTabTheme) 
@@ -374,7 +376,7 @@ myKeys =
 
     -- Apps
      , ("M-S-<Return>", spawn myTerminal)                                      
-     , ("M-w",          spawn "firefox")                                                 
+     , ("M-w",          raiseBrowser)
      , ("M-r",          spawn "redshift -O 3800K")                                        
      , ("M-x",          spawn "redshift -x")                                              
 
@@ -425,6 +427,7 @@ main = do
                         , borderWidth               = myBorderWidth
                         , focusedBorderColor        = myFocusedColor
                         , normalBorderColor         = myNormalColor
+                        , focusFollowsMouse         = myFocusFollowsMouse  
                         , workspaces                = myWorkspaces
                         , startupHook               = myStartupHook
                         , layoutHook                = myLayoutHook
