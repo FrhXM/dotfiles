@@ -28,9 +28,9 @@ URxvt.scrollBar_right: false
 URxvt*depth: 32
 URxvt.background: [70]#000000
 URxvt*internalBorder: 50
-urxvt.iso14755: false
-urxvt.keysym.Shift-Control-V: eval:paste_clipboard
-urxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt.iso14755: false
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
