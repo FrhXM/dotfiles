@@ -1,10 +1,11 @@
--------------------------------------------------------------------------------
---                  __  ____  __                       _                     --
---                  \ \/ /  \/  | ___  _ __   __ _  __| |                    --
---                   \  /| |\/| |/ _ \| '_ \ / _` |/ _` |                    --
---                   /  \| |  | | (_) | | | | (_| | (_| |                    --
---                  /_/\_\_|  |_|\___/|_| |_|\__,_|\__,_|                    --
---                                                                           --
+-- ===========================================================================
+-- ██╗  ██╗███╗   ███╗ ██████╗ ███╗   ██╗ █████╗ ██████╗
+-- ╚██╗██╔╝████╗ ████║██╔═══██╗████╗  ██║██╔══██╗██╔══██╗
+--  ╚███╔╝ ██╔████╔██║██║   ██║██╔██╗ ██║███████║██║  ██║
+--  ██╔██╗ ██║╚██╔╝██║██║   ██║██║╚██╗██║██╔══██║██║  ██║
+-- ██╔╝ ██╗██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██║  ██║██████╔╝
+-- ╚═╝  ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═════╝
+-- ===========================================================================
 -------------------------------------------------------------------------------
 --          written by Farah Abderrazzak Aka FrhXM(https://github.com/FrhXM)  --
 -------------------------------------------------------------------------------
@@ -99,35 +100,20 @@ white_       = "#acb0d0"
 ------------------------------------------------------------------------
 -- VARIABLES
 ------------------------------------------------------------------------
-myFont :: [Char]
-myFont = "xft:JetBrains Mono:style=Bold:pixelsize=13"
+myTerminal           = "kitty"     :: String     -- Terminal
+myModMask            = mod1Mask    :: KeyMask    -- leader key (windows)
+myBorderWidth        = 2           :: Dimension  -- Border size
+myNormalBorderColor  = black       :: String     -- Border color of unfocus window
+myFocusedBorderColor = blue        :: String     -- Border color of focus window
+myFocusFollowsMouse  = True        :: Bool
+myClickJustFocuses   = False        :: Bool
 
-myBigFont :: [Char]
-myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=80"
+myFont    = "xft:JetBrains Mono:style=Bold:pixelsize=13" :: String
+myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=80"   :: String
 
-myModMask :: KeyMask
-myModMask = mod1Mask       
-
-altMask :: KeyMask
-altMask = mod4Mask         
-
-myTerminal :: [Char]
-myTerminal = "kitty"   
-
-myBorderWidth :: Dimension
-myBorderWidth = 2         
-
-myNormalColor :: [Char]
-myNormalColor  = black
-
-myFocusedColor :: [Char]
-myFocusedColor  = blue
-
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
-
+-- this is to show the number of windows in each workspace.
 windowCount :: X (Maybe String)
-windowCount  = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset  
+windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
 ------ Workspaces -------
 -- wsDEV           = "¹DEV"
@@ -348,37 +334,37 @@ myLayoutHook    = showWName' myShowWNameTheme
 -- Custom Keys
 ------------------------------------------------------------------------
 myKeys = 
-        [
+    [
     -- Xmonad
-        ("M-q", spawn "xmonad --recompile && xmonad --restart")     
-      , ("M-S-q", io exitSuccess)                                  
+      ("M-q", spawn "xmonad --recompile && xmonad --restart")     
+    , ("M-S-q", io exitSuccess)                                  
     
     -- System 
-                    --- Audio ---
-      , ("<XF86AudioMute>",  spawn "pamixer -t && notify-send -t 200 'Toggle mute button!'") 	
-      , ("<F9>",        spawn "pamixer -i 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
-      , ("<F8>",        spawn "pamixer -d 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")  			    
-      , ("<F10>",       spawn "pamixer --default-source -t && notify-send -t 200 'Toggle mute Mic button'")   
-                    --- Brightenss ---
-      , ("<F5>",        spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
-      , ("<F6>",        spawn "xbacklight -inc 10 && notify-send -t 200 `xbacklight -get`")
-                    --- ScreenShoot --- 
-      , ("<Print>",     spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
-      , ("M-<Print>",   spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
-      , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
-                    --- Scripts ---
-      , ("M-S-w",       spawn "bash ~/.config/rofi/scripts/wifiMenu.sh" )
-      , ("M-S-e",       spawn "bash ~/.config/rofi/scripts/powerMenu.sh")
+                   --- Audio ---
+    , ("<XF86AudioMute>",  spawn "pamixer -t && notify-send -t 200 'Toggle mute button!'") 	
+    , ("<F9>",        spawn "pamixer -i 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
+    , ("<F8>",        spawn "pamixer -d 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")  			    
+    , ("<F10>",       spawn "pamixer --default-source -t && notify-send -t 200 'Toggle mute Mic button'")   
+                   --- Brightenss ---
+    , ("<F5>",        spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
+    , ("<F6>",        spawn "xbacklight -inc 10 && notify-send -t 200 `xbacklight -get`")
+                   --- ScreenShoot --- 
+    , ("<Print>",     spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
+    , ("M-<Print>",   spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+    , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+                   --- Scripts ---
+    , ("M-S-w",       spawn "bash ~/.config/rofi/scripts/wifiMenu.sh" )
+    , ("M-S-e",       spawn "bash ~/.config/rofi/scripts/powerMenu.sh")
 
     -- Run Prompt
-      , ("M-S-d",       spawn "dmenu_run")                                                  
-      , ("M-d",         spawn "rofi -show drun -show-icons")                                           
+    , ("M-S-d",       spawn "dmenu_run")                                                  
+    , ("M-d",         spawn "rofi -show drun -show-icons")                                           
 
     -- Apps
-     , ("M-S-<Return>", spawn myTerminal)                                      
-     , ("M-w",          raiseBrowser)
-     , ("M-r",          spawn "redshift -O 3800K")                                        
-     , ("M-x",          spawn "redshift -x")                                              
+    , ("M-S-<Return>", spawn myTerminal)                                      
+    , ("M-w",          raiseBrowser)
+    , ("M-r",          spawn "redshift -O 3800K")                                        
+    , ("M-x",          spawn "redshift -x")                                              
 
 
     -- Window navigation
@@ -425,9 +411,10 @@ main = do
     xmonad $ docks def {  modMask                   = myModMask
                         , terminal                  = myTerminal
                         , borderWidth               = myBorderWidth
-                        , focusedBorderColor        = myFocusedColor
-                        , normalBorderColor         = myNormalColor
+                        , focusedBorderColor        = myFocusedBorderColor 
+                        , normalBorderColor         = myNormalBorderColor
                         , focusFollowsMouse         = myFocusFollowsMouse  
+                        , clickJustFocuses          = myClickJustFocuses
                         , workspaces                = myWorkspaces
                         , startupHook               = myStartupHook
                         , layoutHook                = myLayoutHook
@@ -461,5 +448,5 @@ main = do
                                                        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                                                        } 
                                                        >>  updatePointer (0.5, 0.5) (0, 0) -- exact centre of window
-                                                       >> fadeInactiveLogHook 0.95         -- Trancperncy Window (max = 1)
+                                                       >>  fadeInactiveLogHook 0.95         -- Trancperncy Window (max = 1)
                          } `additionalKeysP` myKeys
