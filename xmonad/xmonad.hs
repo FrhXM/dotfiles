@@ -86,7 +86,6 @@ magenta       = "#ad8ee6"
 cyan          = "#449dab"
 white         = "#787c99"
 
-
 --- Two Pallate ---
 black_       = "#444b6a"
 red_         = "#ff7a93"
@@ -106,7 +105,7 @@ myBorderWidth        = 2           :: Dimension  -- Border size
 myNormalBorderColor  = black       :: String     -- Border color of unfocus window
 myFocusedBorderColor = blue        :: String     -- Border color of focus window
 myFocusFollowsMouse  = True        :: Bool
-myClickJustFocuses   = False        :: Bool
+myClickJustFocuses   = False       :: Bool
 
 myFont    = "xft:JetBrains Mono:style=Bold:pixelsize=13" :: String
 myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=80"   :: String
@@ -164,7 +163,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "cmus" spawnCmus findCmus manageCmus
                 , NS "browser" spawnBrowser findBrowser manageBrowser
                 ]
-  where
+               where
     spawnTerm  = myTerminal ++ " -T scratchpad"
     findTerm   = title =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
@@ -349,9 +348,9 @@ myKeys =
     , ("<F5>",        spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
     , ("<F6>",        spawn "xbacklight -inc 10 && notify-send -t 200 `xbacklight -get`")
                    --- ScreenShoot --- 
-    , ("<Print>",     spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
-    , ("M-<Print>",   spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
-    , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+    , ("<Print>",     spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 2800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
+    , ("M-<Print>",   spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 2800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
+    , ("M-S-<Print>", spawn "scrot -s -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 2800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
                    --- Scripts ---
     , ("M-S-w",       spawn "bash ~/.config/rofi/scripts/wifiMenu.sh" )
     , ("M-S-e",       spawn "bash ~/.config/rofi/scripts/powerMenu.sh")
@@ -386,17 +385,16 @@ myKeys =
     , ("M-a",           sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) -}
     , ("M-z",           sendMessage MirrorShrink) {-- For Layout ResizableTile( Tiled ) -}
 
-    -- Increase/decrease spacing (gaps)
+   -- Increase/decrease spacing (gaps)
     , ("M-C-j",         decWindowSpacing 4     )  -- Decrease window spacing
     , ("M-C-k",         incWindowSpacing 4     )  -- Increase window spacing
     , ("M-C-h",         decScreenSpacing 4     )  -- Decrease screen spacing
     , ("M-C-l",         incScreenSpacing 4     )  -- Increase screen spacing
 
-    -- Scratch Pads 
+   -- Scratch Pads 
     , ("M-s t",         namedScratchpadAction myScratchPads "terminal") -- Terminal
     , ("M-s s",         namedScratchpadAction myScratchPads "cmus"    ) -- Cmus [Music Player]
     , ("M-s w",         namedScratchpadAction myScratchPads "browser" ) -- Chromium      
-
     ]
     where 
         toggleFloat w = windows (\s -> if M.member w (W.floating s)
