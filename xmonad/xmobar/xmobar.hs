@@ -1,6 +1,6 @@
 Config {
-       font                 = "xft:JetBrains Mono:weight=bold:pixelsize=11:antialias=true:hinting=true"
-       , additionalFonts    = [ "xft:Mononoki:pixelsize=12:antialias=true:hinting=true"
+       font                 = "xft:JetBrains Mono:weight=bold:pixelsize=10:antialias=true:hinting=true"
+       , additionalFonts    = [ "xft:FiraCode Nerd Font Mono:pixelsize=12:antialias=true:hinting=true"
                                 , "xft:Font Awesome 6 Free Solid:pixelsize=12"
                                 , "xft:Font Awesome 6 Brands:pixelsize=12"
                               ]
