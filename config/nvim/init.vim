@@ -115,8 +115,8 @@ nnoremap <C-p> :BLines<CR>
 nnoremap <C-g> :GFiles<CR>
 
 " ========================= NERDTree ==================================
-nnoremap <F7> :NERDTreeFind<CR>
-nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-g> :NERDTreeFind<CR>
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif 
 
 " ╭────────────────────────────────────────────────────────────────────╮
@@ -138,7 +138,7 @@ noremap <silent> <leader>l :left<CR>
 " ============================= Tabs ===================================
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
-nnoremap <silent> <C-t> :tabnew<CR>
+" nnoremap <silent> <C-t> :tabnew<CR>
 
 " ===================== Normal mode remappings ========================
 nnoremap <C-q> :q!<CR>
