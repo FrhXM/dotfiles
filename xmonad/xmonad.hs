@@ -32,11 +32,11 @@ import XMonad.ManageHook (doFloat)
 import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isFullscreen)              
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)                                           
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, wrap, shorten, PP(..))
-import XMonad.Hooks.FadeInactive                                                               
+import XMonad.Hooks.FadeInactive (fadeInactiveLogHook) 
 
 -- Utilities
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.EZConfig (additionalKeysP)                                                 
+import XMonad.Util.EZConfig ( additionalKeysP )                                                 
 import XMonad.Util.Run (spawnPipe, hPutStrLn)                                                
 import XMonad.Util.SpawnOnce (spawnOnce)                                                    
 import XMonad.Util.Cursor                                                                  
