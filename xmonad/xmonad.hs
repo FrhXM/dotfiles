@@ -14,14 +14,15 @@
 -- Main
 import XMonad                                                                                  
 import System.Exit
-import Control.Monad (liftM2)                                                                 
 import qualified XMonad.StackSet as W                                                        
 import qualified Data.Map as M                                                              
+import Control.Monad (liftM2)                                                                 
 
 -- Actions
-import XMonad.Actions.UpdatePointer
-import XMonad.Actions.FindEmptyWorkspace
-import XMonad.Actions.Minimize
+import XMonad.Actions.UpdatePointer (updatePointer)
+import XMonad.Actions.FindEmptyWorkspace (viewEmptyWorkspace, tagToEmptyWorkspace)
+import XMonad.Actions.Minimize (minimizeWindow, withLastMinimized, maximizeWindowAndFocus)
+import XMonad.Actions.Promote (promote)
 import XMonad.Actions.WithAll (killAll, sinkAll)
 import XMonad.Actions.WindowGo (raiseBrowser)
 import XMonad.Actions.RotSlaves (rotSlavesDown)
@@ -35,11 +36,11 @@ import XMonad.Hooks.DynamicLog (dynamicLogWithPP, xmobarPP, xmobarColor, wrap, s
 import XMonad.Hooks.FadeInactive (fadeInactiveLogHook) 
 
 -- Utilities
-import XMonad.Util.NamedScratchpad
 import XMonad.Util.EZConfig ( additionalKeysP )                                                 
 import XMonad.Util.Run (spawnPipe, hPutStrLn)                                                
 import XMonad.Util.SpawnOnce (spawnOnce)                                                    
-import XMonad.Util.Cursor                                                                  
+import XMonad.Util.Cursor (setDefaultCursor)
+import XMonad.Util.NamedScratchpad 
 
 -- Layouts/Modifiers 
 import XMonad.Layout.ComboP
@@ -100,12 +101,12 @@ white_       = "#acb0d0"
 -- VARIABLES
 ------------------------------------------------------------------------
 myTerminal           = "kitty"     :: String     -- Terminal
-myModMask            = mod1Mask    :: KeyMask    -- leader key (windows)
+myModMask            = mod1Mask    :: KeyMask    -- leader key (Alt)
 myBorderWidth        = 2           :: Dimension  -- Border size
 myNormalBorderColor  = black       :: String     -- Border color of unfocus window
 myFocusedBorderColor = blue        :: String     -- Border color of focus window
-myFocusFollowsMouse  = True        :: Bool
-myClickJustFocuses   = False       :: Bool
+myFocusFollowsMouse  = True        :: Bool       -- focus follow config
+myClickJustFocuses   = False       :: Bool       -- focus click config
 
 myFont    = "xft:JetBrains Mono:style=Bold:pixelsize=13" :: String
 myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=80"   :: String
@@ -152,6 +153,7 @@ myManageHook = composeAll
      , className =? "error"             --> doFloat
      , className =? "Gimp"              --> doFloat
      , className =? "notification"      --> doFloat
+     , isFullscreen                     -->  doFullFloat
      ] <+> namedScratchpadManageHook myScratchPads
     where
      doViewShift = doF . liftM2 (.) W.view W.shift
@@ -318,13 +320,10 @@ myLayoutHook    = showWName' myShowWNameTheme
                 $ onWorkspace " 9 " mediaLayout
                 $ allLayouts
                where 
-    allLayouts = tall ||| full ||| twoPane ||| threeColMid ||| oneBig ||| dishes ||| grid
-    webLayouts = oneBig ||| threeColMid ||| dishes ||| tall
-      -- ||| floats
-      -- ||| grid
-      -- ||| spirals
-    codeLayouts = dishes ||| twoPane ||| tabs
-    chatLayouts = grid ||| threeColMid ||| tall
+    allLayouts = tall ||| threeColMid ||| dishes ||| oneBig ||| grid ||| twoPane ||| spirals ||| circle ||| floats ||| tabs
+    webLayouts = oneBig ||| threeColMid ||| dishes ||| tall ||| grid ||| twoPane ||| spirals ||| circle ||| floats ||| tabs
+    codeLayouts = tabs ||| twoPane ||| dishes
+    chatLayouts = grid ||| threeColMid ||| dishes ||| oneBig ||| tall ||| twoPane ||| spirals ||| circle ||| floats ||| tabs
     youtubeLayouts = oneBig ||| full
     settingsLayouts = circle ||| grid ||| spirals ||| floats
     mediaLayout = oneUp ||| twoTabbed ||| masterTabbed ||| tabs 
@@ -367,13 +366,14 @@ myKeys =
 
 
     -- Window navigation
+    , ("M-<Return>",    promote                                 ) {-- Moves the focused window to the master pane --}
     , ("M-t",           withFocused toggleFloat                 ) {-- Floating window --}
     , ("M-f",           sendMessage $ Toggle FULL               ) {--Full Screen --}
-    , ("M-S-f",         withFocused (sendMessage . maximizeRestore)) {----For Maximaze With Paddings --}
+    , ("M-S-f",         withFocused (sendMessage . maximizeRestore)) {-- For Maximaze With Paddings --}
     , ("M-e",           viewEmptyWorkspace                      ) {-- Find Empty Workspaces --}
     , ("M-g",           tagToEmptyWorkspace                     ) {-- Go To workspaces --}
-    , ("M-n",           withFocused minimizeWindow                 ) {-- For Minimize && Action minimize --}
-    , ("M-S-n",         withLastMinimized maximizeWindowAndFocus   ) {-- For Minimize && Action minimize --}
+    , ("M-n",           withFocused minimizeWindow              ) {-- For Minimize && Action minimize --}
+    , ("M-S-n",         withLastMinimized maximizeWindowAndFocus) {-- For Minimize && Action minimize --}
     , ("M-S-a",         killAll                                 ) {-- Quite All --}
     , ("M-S-t",         sinkAll                                 ) {-- Push ALL floating windows to tile.--}
     , ("M-S-s",         sendMessage $ SwapWindow                ) {-- Compine Two Layout [XM-comboP]--}
