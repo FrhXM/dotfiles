@@ -132,7 +132,7 @@ myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/wall.png"                        	    -- Wallpapers
+    spawnOnce "xwallpaper --zoom ~/pix/wall/tokyo.png"                        	    -- Wallpapers
     spawnOnce "dunst"                                                               -- notfiction
     spawnOnce "unclutter"                                                           -- hidden Mouse
     spawnOnce "xset r rate 255 55"                                                  -- speeds cursor in urxvt
@@ -322,7 +322,7 @@ myLayoutHook    = showWName' myShowWNameTheme
                where 
     allLayouts = tall ||| threeColMid ||| dishes ||| oneBig ||| grid ||| twoPane ||| spirals ||| circle ||| floats ||| tabs
     webLayouts = oneBig ||| threeColMid ||| dishes ||| tall ||| grid ||| twoPane ||| spirals ||| circle ||| floats ||| tabs
-    codeLayouts = tabs ||| twoPane ||| dishes
+    codeLayouts = dishes ||| twoPane ||| tabs
     chatLayouts = grid ||| threeColMid ||| dishes ||| oneBig ||| tall ||| twoPane ||| spirals ||| circle ||| floats ||| tabs
     youtubeLayouts = oneBig ||| full
     settingsLayouts = circle ||| grid ||| spirals ||| floats
@@ -445,6 +445,6 @@ main = do
                                                        -- order of things in xmobar
                                                        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                                                        } 
-                                                       >>  updatePointer (0.5, 0.5) (0, 0) -- exact centre of window
+                                                       >>  updatePointer (0.5, 0.5) (0, 0)  -- exact centre of window
                                                        >>  fadeInactiveLogHook 0.95         -- Trancperncy Window (max = 1)
                          } `additionalKeysP` myKeys
