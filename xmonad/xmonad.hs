@@ -14,8 +14,6 @@
 -- Main
 import XMonad                                                                                  
 import System.Exit
-import qualified XMonad.StackSet as W                                                        
-import qualified Data.Map as M                                                              
 import Control.Monad (liftM2)                                                                 
 
 -- Actions
@@ -27,6 +25,7 @@ import XMonad.Actions.WithAll (killAll, sinkAll)
 import XMonad.Actions.WindowGo (raiseBrowser)
 import XMonad.Actions.RotSlaves (rotSlavesDown)
 import XMonad.Actions.WindowBringer (gotoMenu, bringMenu)
+import XMonad.Actions.WindowMenu (windowMenu)
 
 -- Hooks
 import XMonad.ManageHook (doFloat)                                                         
@@ -71,6 +70,10 @@ import XMonad.Layout.Dishes
 import XMonad.Layout.HintedGrid
 import XMonad.Layout.Dwindle                                                    
 import XMonad.Layout.Accordion
+
+-- Others
+import qualified XMonad.StackSet as W                                                        
+import qualified Data.Map as M                                                              
 
 ------------------------------------------------------------------------
 -- Color Pallatte
@@ -380,6 +383,7 @@ myKeys =
     , ("M-S-r",         rotSlavesDown                           ) {-- Don't Touch Layout in Master --}
     , ("M-p",           gotoMenu                                ) {-- Find Window  in dmenu --}
     , ("M-b",           bringMenu                               ) {-- swap window To Current WS --}
+    , ("M-o",           windowMenu                              ){-- For windowMenu --}
    
    -- Resize layout
     , ("M-a",           sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) -}
