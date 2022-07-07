@@ -1,83 +1,126 @@
-* {
-  base00:                         #282c34;
-  base01:                         #353b45;
-  base02:                         #3e4451;
-  base03:                         #545862;
-  base04:                         #565c64;
-  base05:                         #abb2bf;
-  base06:                         #b6bdca;
-  base07:                         #c8ccd4;
-  base08:                         #e06c75;
-  base09:                         #d19a66;
-  base0A:                         #e5c07b;
-  base0B:                         #98c379;
-  base0C:                         #56b6c2;
-  base0D:                         #61afef;
-  base0E:                         #c678dd;
-  base0F:                         #be5046;
-
-  background-input:               #3e4451CD;
-  background:                     #282c34CD;
-  background-selected:            #be5046CC;
-  foreground:                     #f2f2f2EE;
-  foreground-selected:            #ffffffFF;
-  urgent:                         #d19a6666;
-  urgent-selected:                #d19a6677;
+/*
+ *
+ * Author  : Aditya Shakya
+ * Mail    : adi1090x@gmail.com
+ * Github  : @adi1090x
+ * Twitter : @adi1090x
+ *
+ */
+configuration {
+	font:                      		"FiraCode Nerd Font Mono Bold 14";
+  disable-history:                false;
+  fullscreen:                     false;
+	hide-scrollbar: 				        true;
+	sidebar-mode: 					        false;
 }
 
 * {
-    /* General */
-    icon-font:                            "FiraCode Nerd Font Mono 23";
-
-    accent: #e06c75;
-    foreground: #c8ccd4;
-    background-light: #00000000;
+    background:                     #11121DFF;
+    background-alt:                 #2D142Cff;
+    foreground:                     #ffffffA6;
+    border:               			    #EE4540ff;
+    border-alt:               		  #C92A42ff;
+    selected:               		    #510A3299;
+    urgent:                         #DA4453FF;
 }
 
-#window {
-    height: 100%;
-    width: 100%;
-    threads:                        0;
-    scroll-method:                  0;
-    disable-history:                false;
-    hide-scrollbar: 				true;
-    sidebar-mode: 					false;
-    location: center;
-    anchor: center;
-    padding: 400px 550px;
-    children: [ inputbar, horibox ];
+* {
+    background-color:               @background;
+    text-color:                     @foreground;
+    width:                          10px;
+    height:                         10px;
 }
-
-/* ########### */
-
-#horibox {
-  children: [ listview ];
-  background-color: @background-light;
-  padding: 0px;
+window {
+    transparency:                   "real";
+    border-radius:                  20px;
+    location:                       center;
+    padding:                        10;
+    transparency:                   "real";
+    width:                          367px;
+    height:                         365px;
+    location:                       east;
 }
-
-#listview {
-  layout: horizontal;
-  background-color: @background-light;
-  spacing: 30px;
-  columns: 5;
-  extend: true;
-  horizontal-align: 0.5;
+prompt {
+    enabled: 						            true;
+    padding:                        10px;
+	background-color: 				        @background;
+	text-color: 					            @accent;
+    border:                  		0px 2px 0px 2px;
+    border-radius:                  12px;
+    border-color:                  	@accent;
 }
-
-#element {
-    children: [element-text];
-    background-color: @background-light;
-    horizontal-align: 0.5;
+textbox-prompt-colon {
+	expand: 						          false;
+	str: 							            " System ";
+	background-color: 				    @accent;
+	text-color: 					        @background;
+    padding:                    10px 10px 0px 10px;
+    border-radius:              12px;
 }
-
+inputbar {
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+    spacing:                        15px;
+    background-color:               @background;
+    text-color:                     @foreground;
+    expand:                         false;
+    border:                  		    0px;
+    border-radius:                  0px;
+    border-color:                  	@accent;
+    margin:                         0px 0px 0px 0px;
+    padding:                        0px;
+    position:                       center;
+}
+listview {
+    columns:						            1;
+    lines:							            3;
+    spacing:                        15px;
+    cycle:                          true;
+    dynamic:                        true;
+    layout:                         vertical;
+}
+mainbox {
+    background-color:               @background;
+    children:                       [ inputbar, listview ];
+    spacing:                        15px;
+    margin:                         40px;
+}
+element {
+    background-color:               @background-light;
+    text-color:                     @foreground;
+    orientation:                    vertical;
+    border-radius:                  20px;
+}
 element-text {
-    font: @icon-font;
-    padding: 20px;
+    font:							          "FiraCode Nerd Font Mono Bold 15";
+    expand:                         true;
+    horizontal-align:               0.5;
+    vertical-align:                 0;
+    /* margin:                         25px 0px 65px 0px; */
 }
-
-#element.selected {
-  background-color: @accent;
-  text-color: @background;
+element normal.urgent,
+element alternate.urgent {
+    background-color:               @off;
+    text-color:                     @background;
+    border-radius:                  20px;
+}
+element normal.active,
+element alternate.active {
+    background-color:               @on;
+    text-color:                     @background;
+}
+element selected {
+    background-color:               @accent;
+    text-color:                     @background;
+    border:                  		0px;
+    border-radius:                  20px;
+    border-color:                  	@border;
+}
+element selected.urgent {
+    background-color:               @on;
+    text-color:                     @background;
+}
+element selected.active {
+    background-color:               @off;
+    color:                          @background;
 }
 

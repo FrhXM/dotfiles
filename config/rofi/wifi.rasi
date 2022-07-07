@@ -11,7 +11,7 @@ configuration {
 }
 
 * {
-    BG:    #1a1b26;
+    BG:    #11121D;
     BGA:   #16161e;
     FG:    #c0caf5;
     BDR:   #7aa2f7;
@@ -26,7 +26,7 @@ window {
     transparency:                   "real";
     background-color:               @BG;
     text-color:                     @FG;
-    border-radius:                  15px;
+    border-radius:                  20px;
     width:                          400px;
     height:                         425px;
 }
