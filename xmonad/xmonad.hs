@@ -105,7 +105,7 @@ white_       = "#acb0d0"
 ------------------------------------------------------------------------
 myTerminal           = "kitty"     :: String     -- Terminal
 myModMask            = mod1Mask    :: KeyMask    -- leader key (Alt)
-myBorderWidth        = 2           :: Dimension  -- Border size
+myBorderWidth        = 1           :: Dimension  -- Border size
 myNormalBorderColor  = black       :: String     -- Border color of unfocus window
 myFocusedBorderColor = blue        :: String     -- Border color of focus window
 myFocusFollowsMouse  = True        :: Bool       -- focus follow config
