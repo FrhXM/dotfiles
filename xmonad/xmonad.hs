@@ -262,7 +262,6 @@ floats          =  renamed [Replace "FLOAT"]
 grid            = renamed [Replace "GRID"]
                 $ mySpacings
                 $ maximizeWithPadding 10
-                $ maximize
                 $ minimize
                 $ limitWindows 12
                 $ GridRatio (4/3) False
