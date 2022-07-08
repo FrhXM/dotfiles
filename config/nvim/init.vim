@@ -27,6 +27,7 @@
 "  ╚══════════════════════════════════════════╝
                  
 " VARS {{{
+set hidden                  " this option is ignored Worning in buffers 
 set autoread                " autoload file changes
 set autowriteall            " autosave files
 set background=dark         " dark colorscheme
@@ -38,7 +39,7 @@ set expandtab               " convert tabs to the spaces
 set foldlevel=2             " sets the fold level
 set foldmethod=indent       " type of indentation
 set foldnestmax=10          " sets the maximum nesting of folds
-set gcr=a:blinkon0          " disable cursor blinking
+" set gcr=a:blinkon0          " disable cursor blinking
 set guioptions=             " remove all GUI components and options.
 set history=1000            " store lots of :cmdline history
 set hlsearch                " highlights the string matched by the search
@@ -47,9 +48,9 @@ set incsearch               " incremental search
 set nobackup                " disable backups
 set nocompatible            " use Vim settings, rather then Vi
 set nofoldenable            " when off, all folds are open when open a new file
-set number
-set relativenumber
-set numberwidth=5     
+set number                  " show Number Line 
+set relativenumber          " show RelativeNumber
+set numberwidth=5           " width of Number Line 
 set noshowmode              " don't show mode as we use a status line plugin
 set noswapfile              " disable swapfile
 set nowrap                  " wrap lines
@@ -65,7 +66,7 @@ set tabstop=2               " 2 spaces
 set termguicolors           " enable True color
 set colorcolumn=80          " Line in Coulmn (80<=Caractère <=120)
 set ttyfast                 " always assume a fast terminal
-set undodir=~/.vim/undo-dir " setup undo directory
+set undodir=~/.config/nvim/undo-dir " setup undo directory
 set undofile                " save undo chages even after computer restart
 set updatetime=250          " reduce update time in Vim
 set wildmenu                " visual autocomplete for command menu
@@ -88,7 +89,7 @@ call plug#begin('~/.config/nvim/plugins')
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
 
-      " ----- Tools -----"
+       " ----- Tools -----"
   Plug 'junegunn/fzf.vim'
   Plug 'preservim/nerdtree'
   Plug 'ryanoasis/vim-devicons'
@@ -138,7 +139,8 @@ noremap <silent> <leader>l :left<CR>
 " ============================= Tabs ===================================
 nnoremap <Tab> gt
 nnoremap <S-Tab> gT
-" nnoremap <silent> <C-t> :tabnew<CR>
+nnoremap <silent> <C-e> :tabnew<CR>
+nnoremap <C-x> :tabclose<CR>
 
 " ===================== Normal mode remappings ========================
 nnoremap <C-q> :q!<CR>
@@ -162,7 +164,7 @@ inoremap <right> <Nop>
 vnoremap <up> <Nop>
 vnoremap <down> <Nop>
 vnoremap <left> <Nop>
-vnoremap <right> <Nop
+vnoremap <right> <Nop>
 " =================== Disable arrow keys for command mode ==============
 cnoremap <up> <Nop>
 cnoremap <down> <Nop>
