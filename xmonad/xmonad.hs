@@ -434,7 +434,7 @@ main = do
                                                        -- Hidden workspaces (no windows)
                                                        , ppHiddenNoWindows = xmobarColor blue_ ""
                                                        -- Title of active window
-                                                       , ppTitle = xmobarColor blue_ "" . shorten 40
+                                                       , ppTitle = xmobarColor blue_ "" . shorten 60
                                                        -- Separator character
                                                        , ppSep =  "<fc=" ++ cyan_ ++ "> <fn=1>|</fn> </fc>"
                                                        -- WS Separator 
