@@ -112,7 +112,7 @@ myFocusFollowsMouse  = True        :: Bool       -- focus follow config
 myClickJustFocuses   = False       :: Bool       -- focus click config
 
 myFont    = "xft:JetBrains Mono:style=Bold:pixelsize=13" :: String
-myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=80"   :: String
+myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=100"   :: String
 
 -- this is to show the number of windows in each workspace.
 windowCount :: X (Maybe String)
@@ -135,7 +135,7 @@ myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/tokyo.png"                        	    -- Wallpapers
+    spawnOnce "xwallpaper --zoom ~/pix/wall/anime.png"                        	    -- Wallpapers
     spawnOnce "dunst"                                                               -- notfiction
     spawnOnce "unclutter"                                                           -- hidden Mouse
     spawnOnce "xset r rate 255 55"                                                  -- speeds cursor in urxvt
