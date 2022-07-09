@@ -112,7 +112,7 @@ myFocusFollowsMouse  = True        :: Bool       -- focus follow config
 myClickJustFocuses   = False       :: Bool       -- focus click config
 
 myFont    = "xft:JetBrains Mono:style=Bold:pixelsize=13" :: String
-myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=100"   :: String
+myBigFont = "xft:FiraCode Nerd Font Mono:pixelsize=100"  :: String
 
 -- this is to show the number of windows in each workspace.
 windowCount :: X (Maybe String)
