@@ -10,7 +10,11 @@ set fish_cursor_insert      line       blink
 set fish_cursor_replace_one underscore blink
 set fish_cursor_visual      block
 
-############################ TokyoNight Color Palette ########################
+
+##############################################################################
+##################### TokyoNight Color Palette ###############################
+##############################################################################
+# Color Pallate
 set -l foreground c0caf5
 set -l selection 33467C
 set -l comment 565f89
@@ -44,37 +48,40 @@ set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
-################################ Alias #######################################
-# navigation
+##############################################################################
+################################### Alias ####################################
+##############################################################################
+## navigation
 alias ..='cd ..'
 alias ...='cd ../..'
 alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
-# Changing "ls" to "exa"
+## Changing "ls" to "exa"
 alias l='exa --icons'
-alias ls='exa --color=auto --icons'
-alias ll='exa -lah --icons'
-alias la='exa -a --icons'
+alias ls='exa --color=auto'
+alias ll='exa -lh'
+alias la='exa -a'
 alias lt='exa --tree --level=2 --icons'
+alias l.='exa -a | egrep "^\."'
 
-# confirm before overwriting something
+## confirm before overwriting something
 alias cp="cp -i"
 alias mv='mv -i'
 alias rm='rm -i'
 
-# bat && find
+## bat && find
 alias cat='bat'
 alias find='fd'
 
-# Editor Vim NeoVim
+## Editor Vim NeoVim
 alias v='vim'
 alias vi="vim"
 alias nv="nvim"
 alias vim="nvim"
 
-# V && X && C & H & N
+## V && X && C & H & N
 alias x='startx'
 alias h='history'
 alias n='clear && neofetch'
@@ -82,14 +89,14 @@ alias c='clear'
 alias cc='clear'
 alias ss='sxiv -b -f -t'
 
-# Pacman && yay
+## Pacman && yay
 alias 'update'='sudo pacman -Sy'
 alias 'upgrade'='sudo pacman -Syu && echo "UPGRADED"'
 alias 'ps'='sudo pacman -S'
 alias 'psy'='sudo pacman -Sy'
 alias 'pr'='sudo pacman -Rsn'
 
-# alias for configs	
+## alias for configs	
 alias fishc="vim ~/.config/fish/config.fish"
 alias xmonadc="vim ~/.xmonad/xmonad.hs"
 alias xmobarc="vim ~/.xmonad/xmobar/xmobar.hs"
