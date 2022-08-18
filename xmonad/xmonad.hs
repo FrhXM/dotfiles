@@ -198,7 +198,7 @@ projects =
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/myGirl.jpg"                        	    -- Wallpapers
+    spawnOnce "xwallpaper --zoom ~/pix/wall/myWorld.png"                            -- Wallpapers
     spawnOnce "dunst"                                                               -- notfiction
     spawnOnce "unclutter"                                                           -- hidden Mouse
     spawnOnce "nm-applet"                                                           -- networkManager-applte {systemTray}
