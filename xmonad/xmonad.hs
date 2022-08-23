@@ -6,8 +6,10 @@
 -- ██╔╝ ██╗██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██║  ██║██████╔╝
 -- ╚═╝  ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═════╝
 -- ===========================================================================
--------------------------------------------------------------------------------
---      written by Farah Abderrazzak Aka FrhXM(https://github.com/frhxm)     --
+{-
+      written by Farah Abderrazzak Aka FrhXM(https://github.com/frhxm)
+      first Edit 25/4/2022 + (I think ?)
+-}
 -------------------------------------------------------------------------------
 -- Import modules                                                           {{{
 -------------------------------------------------------------------------------
@@ -31,11 +33,11 @@ import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.WindowSwallowing (swallowEventHook)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks, ToggleStruts(..))
 import XMonad.ManageHook (doFloat)
-import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isFullscreen)
+import XMonad.Hooks.ManageHelpers (doCenterFloat, doRectFloat, doFullFloat, isFullscreen)
 import XMonad.Hooks.FadeWindows (fadeWindowsLogHook, isFloating, isUnfocused, transparency, solid)
+import XMonad.Hooks.StatusBar (withEasySB, statusBarProp, defToggleStrutsKey)
+import XMonad.Hooks.StatusBar.PP (PP (ppCurrent, ppExtras, ppHidden, ppOrder, ppSep, ppWsSep, ppUrgent, ppVisible, ppTitle, ppLayout, ppHiddenNoWindows), shorten, wrap, xmobarColor)
 import XMonad.Hooks.UrgencyHook 
-import XMonad.Hooks.StatusBar 
-import XMonad.Hooks.StatusBar.PP
 
 -- Utilities
 import XMonad.Util.EZConfig (additionalKeysP)
@@ -45,6 +47,7 @@ import XMonad.Util.ClickableWorkspaces (clickablePP)
 import XMonad.Util.NamedScratchpad 
 
 -- Layouts/Modifiers 
+import XMonad.Layout.MagicFocus
 import XMonad.Layout.ComboP
 import XMonad.Layout.Master
 import XMonad.Layout.PerWorkspace
@@ -75,6 +78,7 @@ import XMonad.Layout.Dwindle
 
 -- prompt
 import XMonad.Prompt
+import XMonad.Prompt.ConfirmPrompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Window
 import XMonad.Prompt.Man
@@ -82,7 +86,7 @@ import XMonad.Prompt.FuzzyMatch
 
 -- Others
 import qualified XMonad.StackSet as W
-import qualified Data.Map 	     as M
+import qualified Data.Map 	 as M
 
 ------------------------------------------------------------------------
 -- Color Pallatte
@@ -145,12 +149,12 @@ wsGIT           = "二"
 wsWEB           = "三"
 wsYTB           = "四"
 wsCHT           = "五"
-wsMSC           = "六"
-wsVED           = "七"
+wsANM           = "六"
+wsMED           = "七"
 wsSIT           = "八"
-wsMED           = "九"
+wsAll           = "九"
 -- myWorkspaces    = ["一", "二", "三", "四", "五", "六", "七", "八", "九"]
-myWorkspaces    = [wsDEV,wsGIT,wsWEB,wsYTB,wsCHT,wsMSC,wsVED,wsSIT, wsMED]
+myWorkspaces    = [wsDEV, wsGIT, wsWEB, wsYTB, wsCHT, wsANM, wsMED, wsSIT, wsAll]
 
 -- =========================================================================
 --  Projects
@@ -158,39 +162,38 @@ myWorkspaces    = [wsDEV,wsGIT,wsWEB,wsYTB,wsCHT,wsMSC,wsVED,wsSIT, wsMED]
 projects =
     [ Project { projectName = wsDEV
               , projectDirectory = "~/prjcts"
-              , projectStartHook = Just $ do spawn myTerminal
-                                             spawn myTerminal 
-                                             spawn myTerminal
+              , projectStartHook = Just $ do spawn "kitty -e nvim"
               }
 
     , Project { projectName = wsGIT
               , projectDirectory = "~/prjcts"
-              , projectStartHook = Just $ do spawn myTerminal
-                                             spawn "qutebrowser --target=window github.com/frhxm"
-                                             spawn myTerminal
+              , projectStartHook = Just $ do spawn "qutebrowser --target=window github.com/frhxm"
               }
 
     , Project { projectName = wsWEB
-              , projectDirectory = "~/"
-              , projectStartHook = Just $ do spawn myBrowser
-                                             spawn myTerminal
+              , projectDirectory = "~/dl"
+              , projectStartHook = Just $ do spawn "qutebrowser --target=window"
               }
 
     , Project { projectName = wsYTB
-              , projectDirectory = "~/dl"
+              , projectDirectory = "~/vids"
               , projectStartHook = Just $ do spawn "qutebrowser --target=window youtube.com"
+              }
+
+    , Project { projectName = wsANM
+              , projectDirectory = "~/"
+              , projectStartHook = Just $ do spawn "qutebrowser --target=window anime4up.com"
+              }
+
+    , Project { projectName = wsMED
+              , projectDirectory = "~/"
+              , projectStartHook = Just $ do spawn "thunar"
               }
 
     , Project { projectName = wsSIT
               , projectDirectory = "~/.config"
-              , projectStartHook = Just $ do spawn myTerminal
-                                             spawn "kitty -e nvim ~/.config/xmobar/xmobar.hs"
+              , projectStartHook = Just $ do spawn "kitty -e nvim ~/.config/xmobar/xmobar.hs"
                                              spawn "kitty -e nvim ~/.config/xmonad/xmonad.hs"
-              }
-
-    , Project { projectName = wsMED
-              , projectDirectory = "~/vids"
-              , projectStartHook = Just $ do spawn "thunar"
               }
     ]
 
@@ -198,7 +201,7 @@ projects =
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/myWorld.png"                            -- Wallpapers
+    spawnOnce "xwallpaper --zoom ~/pix/wall/myGirl.jpg"                            -- Wallpapers
     spawnOnce "dunst"                                                               -- notfiction
     spawnOnce "unclutter"                                                           -- hidden Mouse
     spawnOnce "nm-applet"                                                           -- networkManager-applte {systemTray}
@@ -214,9 +217,9 @@ myStartupHook = do
 -- ManageHooks
 ------------------------------------------------------------------------
 myManageHook = composeAll 
-     [ className =? "Thunar"            --> doViewShift (myWorkspaces!!8)
-     , className =? "mpv"               --> doViewShift (myWorkspaces!!8)
-     , className =? "Sxiv"              --> doCenterFloat
+     [ className =? "Thunar"            --> doViewShift wsMED
+     , className =? "mpv"               --> doViewShift wsMED
+     , className =? "Sxiv"              --> doRectFloat (W.RationalRect (1/6) (1/6) (2/3) (2/3))
      , className =? "Nitrogen"          --> doCenterFloat
      , className =? "Xmessage"          --> doCenterFloat
      , className =? "download"          --> doFloat
@@ -322,6 +325,7 @@ dishes          = renamed [Replace "DISHES"]
                 $ Dishes 2 (1/5)
 
 circle          = renamed [Replace "CIRCLE"]
+                $ magicFocus
                 $ maximizeWithPadding 10
                 $ minimize
                 $ mySpacings
@@ -378,7 +382,7 @@ twoTabbed       = renamed [Replace "TWO TABBED"]
 ------------------------------------------------------------------------
 -- Layout Hook
 ------------------------------------------------------------------------
-myHandleEventHook = swallowEventHook (className =? "kitty") (return True) 
+myHandleEventHook= swallowEventHook (className =? "kitty") (return True) 
 mySpacings       = spacingRaw False (Border 0 10 10 10) True (Border 10 10 10 10) True
 myGaps           = gaps [(U, 10),(D, 5),(L, 10),(R, 10)]
 myShowWNameTheme = def
@@ -413,24 +417,24 @@ myLayoutHook    = showWName' myShowWNameTheme
 ------------------------------------------------------------------------
 myXPConfig = def 
           { font                = myFontJP
-          , bgColor             = bg
+          , bgColor             = black
           , fgColor             = fg
           , bgHLight            = green
           , fgHLight            = black
-          , borderColor         = blue
+          , borderColor         = bg
           , promptBorderWidth   = 6
-          , position            = CenteredAt (1 / 4) (1 / 3)
+          , position            = CenteredAt (1 / 15) (1 / 3)
           , alwaysHighlight     = True
           , height              = 40
           , maxComplRows        = Just 5       -- set to Just 5 for 5 rows Or Nothing
-          , maxComplColumns     = Just 2       -- set to Just 5 for 5 coulmn Or Nothing
+          , maxComplColumns     = Just 5       -- set to Just 5 for 5 coulmn Or Nothing
           , historySize         = 256
-          , historyFilter       = id
+          , historyFilter       = deleteAllDuplicates
           , promptKeymap        = vimLikeXPKeymap
           , completionKey       = (0, xK_Tab)
           , changeModeKey       = xK_grave
           , defaultText         = []
-          , autoComplete        = Nothing     -- set Just 100000 for .1 sec
+          , autoComplete        = Nothing       -- set Just 100000 for .1 sec
           , showCompletionOnTab = False
           , complCaseSensitivity= CaseInSensitive
           , defaultPrompter     = id
@@ -453,12 +457,12 @@ wallhaven   = searchEngine "wallhaven" "https://wallhaven.cc/search?q="
 myKeys = 
     [
     -- Xmonad
-      ("M-q", spawn "xmonad --recompile && xmonad --restart")
-    , ("M-S-q", io exitSuccess)
+      ("M-q",  	       spawn "xmonad --recompile && xmonad --restart")
+    , ("M-S-q",        confirmPrompt myXPConfig "Quit XMonad" $ io exitSuccess)
     
     -- System 
                    --- Audio ---
-    , ("<XF86AudioMute>", spawn "pamixer -t && notify-send -t 200 'Toggle mute button!'") 	
+    , ("<XF86AudioMute>",spawn "pamixer -t && notify-send -t 200 'Toggle mute button!'") 	
     , ("<F9>",         spawn "pamixer -i 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
     , ("<F8>",         spawn "pamixer -d 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
     , ("<F10>",        spawn "pamixer --default-source -t && notify-send -t 200 'Toggle mute Mic button'")
@@ -515,17 +519,19 @@ myKeys =
     , ("M-g",          tagToEmptyWorkspace                     ) {-- Go To workspaces --}
     , ("M-n",          withFocused minimizeWindow              ) {-- For Minimize && Action minimize --}
     , ("M-S-n",        withLastMinimized maximizeWindowAndFocus) {-- For Minimize && Action minimize --}
-    , ("M-S-a",        killAll                                 ) {-- Quite All --}
-    , ("M-S-o",        killOthers                              ) {-- Quite All --}
-    , ("M-S-t",        sinkAll                                 ) {-- Push ALL floating windows to tile.--}
+    , ("M-S-a",        confirmPrompt myXPConfig "kill All"    $ killAll    ) {-- Quite All --}
+    , ("M-S-o",        confirmPrompt myXPConfig "kill Others" $ killOthers ) {-- Quite Others --}
+    , ("M-S-t",        sinkAll                                 		   ) {-- Push ALL floating windows to tile.--}
+    , ("M-S-m",        gets windowset >>= mapM_ (windows . W.shiftWin wsAll) . W.allWindows) {-- Move All Window To wsDEV --}
     , ("M-S-s",        sendMessage $ SwapWindow                ) {-- Compine Two Layout [XM-comboP]--}
     , ("M-S-r",        rotSlavesDown                           ) {-- Don't Touch Layout in Master --}
     , ("M-S-p",        shiftToProjectPrompt myXPConfig         ) {-- Create New Project --}
+    , ("M-C-p",        changeProjectDirPrompt myXPConfig       ) {-- Move To Project --}
     , ("M-p",          switchProjectPrompt myXPConfig          ) {-- Move To Project --}
    
    -- Resize layout
-    , ("M-a",          sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) -}
-    , ("M-z",          sendMessage MirrorShrink) {-- For Layout ResizableTile( Tiled ) -}
+    , ("M-a",          sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) --}
+    , ("M-z",          sendMessage MirrorShrink) {-- For Layout ResizableTile( Tiled ) --}
 
    -- Increase/decrease spacing (gaps)
     , ("M-C-j",        decWindowSpacing 4)  -- Decrease window spacing
@@ -542,7 +548,7 @@ myKeys =
 ------------------------------------------------------------------------
 main = xmonad
      . ewmh
-     . ewmhFullscreen  
+  -- . ewmhFullscreen  
      . withEasySB mySB defToggleStrutsKey
      . withUrgencyHook FocusHook
      . docks
@@ -559,16 +565,19 @@ main = xmonad
 
 	      -- Properties of hidden workspaces without windows
 	    , ppHiddenNoWindows = xmobarColor colorInactive ""
-        
-        -- Properties of hidden WS (Active)
+
+	     -- Properties of hidden WS (Active)
         , ppHidden = xmobarColor colorFG ""
 
-        -- Type Of layout in xmobar
-        , ppLayout = xmobarColor colorInactive ""   
+         -- Urgent workspace
+        , ppUrgent = xmobarColor colorSecondary "" . wrap "!" "!"
+
+	    -- Type Of layout in xmobar
+	    , ppLayout = xmobarColor colorInactive ""   
 
 	      -- Title of active window
 	    , ppTitle = xmobarColor colorFG "" . shorten 40
-	      
+
 	      -- Separator character
 	    , ppSep =  "<fc=#3d85c6> <fn=2>\61762</fn> </fc>"
 
@@ -605,7 +614,7 @@ main = xmonad
 -- 	   AllVaribles Not In Containers But In My Heart ==>                   ---
 -------------------------------------------------------------------------------
 myConfig = def
-        { modMask                   = myModMask
+		{ modMask                   = myModMask
 		, terminal                  = myTerminal
 		, borderWidth               = myBorderWidth
 		, focusedBorderColor        = myFocusedBorderColor 
@@ -619,4 +628,4 @@ myConfig = def
         , handleEventHook           = myHandleEventHook 
 		, logHook                   = updatePointer (0.5, 0.5) (0, 0)
                                     >> fadeWindowsLogHook myFadeHook
-	    } `additionalKeysP` myKeys
+        } `additionalKeysP` myKeys
