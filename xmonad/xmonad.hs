@@ -1,4 +1,3 @@
-
 -- ===========================================================================
 -- ██╗  ██╗███╗   ███╗ ██████╗ ███╗   ██╗ █████╗ ██████╗
 -- ╚██╗██╔╝████╗ ████║██╔═══██╗████╗  ██║██╔══██╗██╔══██╗
@@ -120,7 +119,7 @@ white_        = "#acb0d0"
 myTerminal           = "kitty"     :: String     -- Terminal
 myModMask            = mod1Mask    :: KeyMask    -- leader key (Alt)
 myWinMask            = mod4Mask    :: KeyMask    -- Windows Key (Super)
-myBorderWidth        = 1           :: Dimension  -- Border size
+myBorderWidth        = 3           :: Dimension  -- Border size
 myNormalBorderColor  = black       :: String     -- Border color of unfocus window
 myFocusedBorderColor = blue        :: String     -- Border color of focus window
 myFocusFollowsMouse  = True        :: Bool       -- focus follow config
@@ -217,17 +216,11 @@ projects =
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/tokyo.png"                              -- Wallpapers
-    spawnOnce "dunst"                                                               -- notfiction
-    spawnOnce "unclutter"                                                           -- hidden Mouse
-    spawnOnce "udiskie"                                                             -- Auto Mount USB
-    spawnOnce "nm-applet"                                                           -- networkManager-applte {systemTray}
-    spawnOnce "blueman-applet"                                                      -- bluetooth-blueman-applte {systemTray}
+    spawnOnce "xwallpaper --zoom ~/pix/wall/dream.jpg"                              -- Wallpapers
     spawnOnce "~/.config/xmobar/scripts/battnotify.sh"                              -- battery notifction
-    spawnOnce "~/.config/xmobar/scripts/tray.sh"                                    -- trayer
-    -- spawnOnce "redshift -O 4800k"                                                -- Safe your eyes
     spawnOnce "xset r rate 200 80"                                                  -- speeds cursor in urxvt
-    spawnOnce "picom --experimental-backends -b"                                    -- Compositor
+    spawnOnce "picom -b"                                                            -- Compositor
+    -- spawnOnce "redshift -O 4800k"                                                -- Safe your eyes
     setDefaultCursor xC_left_ptr                                                    -- Default Cursor
 
 ------------------------------------------------------------------------
@@ -255,9 +248,9 @@ myManageHook = composeAll
 -- FadeWindowHooks
 ------------------------------------------------------------------------
 myFadeHook = composeAll
-     [ className =? "kitty"              --> transparency 0.1
+     [ className =? "kitty"              --> transparency 0.05
      , className =? "Nemo"               --> transparency 0.1
-     , isUnfocused                       --> transparency 0.2
+     , isUnfocused                       --> transparency 0.1
      , isFloating                        --> solid
      ]
 
@@ -459,8 +452,8 @@ myKeys =
     -- System
                    --- Audio ---
     , ("<XF86AudioMute>",spawn "pamixer -t && notify-send -t 200 'Toggle mute button!'")
-    , ("<F9>",         spawn "pamixer -i 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
-    , ("<F8>",         spawn "pamixer -d 5 && notify-send -t 200 `pulsemixer --get-volume | awk '{print $1}'`")
+    , ("<F9>",         spawn "pamixer -i 5 && ~/.config/xmobar/scripts/volume.sh")
+    , ("<F8>",         spawn "pamixer -d 5 && ~/.config/xmobar/scripts/volume.sh")
     , ("<F10>",        spawn "pamixer --default-source -t && notify-send -t 200 'Toggle mute Mic button'")
                    --- Brightenss ---
     , ("<F5>",         spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
@@ -527,8 +520,8 @@ myKeys =
     , ("M-p",          switchProjectPrompt myXPConfig          ) {-- Move To Project --}
 
     -- Rotate all of the unfocused windows in either direction.
-    , ("M-C-.", rotUnfocusedUp  ) {-Rotate Unfocused UP-}
-    , ("M-C-,", rotUnfocusedDown) {-Rotate Unfocused Down-}
+    , ("M-C-.",        rotUnfocusedUp  ) {-Rotate Unfocused UP-}
+    , ("M-C-,",        rotUnfocusedDown) {-Rotate Unfocused Down-}
 
    -- Resize layout
     , ("M-a",          sendMessage MirrorExpand) {-- For Layout ResizableTile( Tiled ) --}
