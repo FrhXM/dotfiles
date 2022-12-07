@@ -154,11 +154,11 @@ myJPFontBig  = "xft:Noto Sans Mono CJK JP:style=Bold:pixelsize=200":: String
 -- wsWEB           = "三"
 -- wsYTB           = "四"
 -- wsCHT           = "五"
--- wsANM           = "六"
+-- wsPEN           = "六"
 -- wsMED           = "七"
 -- wsSIT           = "八"
 -- wsAll           = "九"
--- myWorkspaces    = [wsDEV, wsGIT, wsWEB, wsYTB, wsCHT, wsANM, wsMED, wsSIT, wsAll]
+-- myWorkspaces    = [wsDEV, wsGIT, wsWEB, wsYTB, wsCHT, wsPEN, wsMED, wsSIT, wsAll]
 
 -- ------ Workspaces -------
 wsDEV           = "¹\xf120"
@@ -166,11 +166,11 @@ wsGIT           = "²\xf7a1"
 wsWEB           = "³\xf26b"
 wsYTB           = "⁴\xf16a"
 wsCHT           = "⁵\xf099"
-wsANM           = "⁶\xf79f"
+wsPEN           = "⁶\xf79f"
 wsMED           = "⁷\xf07b"
 wsSIT           = "⁸\xf013"
 wsAll           = "⁹\xf49c"
-myWorkspaces    = [wsDEV, wsGIT, wsWEB, wsYTB, wsCHT, wsANM, wsMED, wsSIT, wsAll]
+myWorkspaces    = [wsDEV, wsGIT, wsWEB, wsYTB, wsCHT, wsPEN, wsMED, wsSIT, wsAll]
 
 -- =========================================================================
 --  Projects
@@ -196,9 +196,9 @@ projects =
               , projectStartHook = Just $ do spawnOn wsYTB "qutebrowser --target=window youtube.com"
               }
 
-    , Project { projectName = wsANM
+    , Project { projectName = wsPEN
               , projectDirectory = "~/"
-              , projectStartHook = Just $ do spawnOn wsANM "qutebrowser --target=window anime4up.com"
+              , projectStartHook = Just $ do spawnOn wsPEN "qutebrowser --target=window https://codepen.io/pen/"
               }
 
     , Project { projectName = wsMED
@@ -216,7 +216,7 @@ projects =
 -- Startup Hooks
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "xwallpaper --zoom ~/pix/wall/dream.jpg"                              -- Wallpapers
+    spawnOnce "xwallpaper --zoom ~/pix/wall/anime.png"                              -- Wallpapers
     spawnOnce "~/.config/xmobar/scripts/battnotify.sh"                              -- battery notifction
     spawnOnce "xset r rate 200 80"                                                  -- speeds cursor in urxvt
     spawnOnce "picom -b"                                                            -- Compositor
@@ -456,8 +456,8 @@ myKeys =
     , ("<F8>",         spawn "pamixer -d 5 && ~/.config/xmobar/scripts/volume.sh")
     , ("<F10>",        spawn "pamixer --default-source -t && notify-send -t 200 'Toggle mute Mic button'")
                    --- Brightenss ---
-    , ("<F5>",         spawn "xbacklight -dec 10 && notify-send -t 200 `xbacklight -get`")
-    , ("<F6>",         spawn "xbacklight -inc 10 && notify-send -t 200 `xbacklight -get`")
+    , ("<F5>",         spawn "xbacklight -dec 5 && notify-send -t 200 `xbacklight -get`")
+    , ("<F6>",         spawn "xbacklight -inc 30 && notify-send -t 200 `xbacklight -get`")
                    --- ScreenShoot ---
     , ("<Print>",      spawn "scrot -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 2800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"     )
     , ("M-<Print>",    spawn "scrot -u -F ~/pix/screen/%Y-%m-%d-%T-screenshot.png && notify-send -t 2800 'ScreenShot Takeen' 'Saved in ~/pix/screen/'"  )
